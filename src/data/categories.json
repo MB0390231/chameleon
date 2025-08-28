@@ -1,0 +1,34 @@
+{
+  "categories": [
+    {
+      "id": "animals",
+      "name": "Animals",
+      "words": ["Lion", "Elephant", "Kangaroo", "Dolphin", "Eagle", "Panda", "Shark", "Penguin", "Tiger", "Giraffe", "Zebra", "Monkey"]
+    },
+    {
+      "id": "fruits",
+      "name": "Fruits",
+      "words": ["Apple", "Banana", "Orange", "Grape", "Mango", "Pineapple", "Strawberry", "Pear", "Kiwi", "Watermelon", "Cherry", "Peach"]
+    },
+    {
+      "id": "countries",
+      "name": "Countries",
+      "words": ["Japan", "France", "Brazil", "Canada", "Egypt", "Australia", "Mexico", "Germany", "India", "Italy", "Spain", "China"]
+    },
+    {
+      "id": "colors",
+      "name": "Colors",
+      "words": ["Red", "Blue", "Green", "Yellow", "Purple", "Orange", "Pink", "Black", "White", "Brown", "Gray", "Turquoise"]
+    },
+    {
+      "id": "food",
+      "name": "Food",
+      "words": ["Pizza", "Burger", "Pasta", "Sushi", "Tacos", "Sandwich", "Salad", "Soup", "Steak", "Chicken", "Rice", "Bread"]
+    },
+    {
+      "id": "movies",
+      "name": "Movies",
+      "words": ["Avatar", "Titanic", "Star Wars", "Marvel", "Disney", "Horror", "Comedy", "Action", "Romance", "Thriller", "Drama", "Animation"]
+    }
+  ]
+}
