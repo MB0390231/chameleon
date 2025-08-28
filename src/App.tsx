@@ -14,12 +14,10 @@ function App() {
     goToDiscussion,
     goToFinalReveal,
     resetGame,
-    setPlayerCount
+    setPlayerCount,
+    setPlayerNames,
+    setSelectedCategory
   } = useGameState();
-
-  const handleStartGame = () => {
-    startGame(gameState.playerCount);
-  };
 
   const renderCurrentPhase = () => {
     switch (gameState.gamePhase) {
@@ -27,8 +25,12 @@ function App() {
         return (
           <GameSetup
             playerCount={gameState.playerCount}
+            playerNames={gameState.playerNames}
+            selectedCategoryId={gameState.selectedCategoryId}
             onPlayerCountChange={setPlayerCount}
-            onStartGame={handleStartGame}
+            onPlayerNamesChange={setPlayerNames}
+            onCategoryChange={setSelectedCategory}
+            onStartGame={startGame}
           />
         );
 

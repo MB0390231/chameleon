@@ -17,10 +17,10 @@ export const getRandomWord = (words: string[]): string => {
   return getRandomElement(words);
 };
 
-export const createPlayers = (count: number, chameleonId: number): Player[] => {
+export const createPlayers = (count: number, chameleonId: number, playerNames: string[] = []): Player[] => {
   return Array.from({ length: count }, (_, index) => ({
     id: index,
-    name: `Player ${index + 1}`,
+    name: playerNames[index] || `Player ${index + 1}`,
     role: index === chameleonId ? 'chameleon' : 'informed',
     hasRevealed: false
   }));

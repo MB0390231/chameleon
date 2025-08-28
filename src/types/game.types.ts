@@ -24,10 +24,12 @@ export interface GameState {
   players: Player[];
   currentPlayerIndex: number;
   selectedCategory: Category | null;
+  selectedCategoryId: string | null;
   secretWord: string;
   chameleonId: number;
   gamePhase: GamePhase;
   playerCount: number;
+  playerNames: string[];
 }
 
 export interface GameData {

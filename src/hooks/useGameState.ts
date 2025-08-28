@@ -8,29 +8,38 @@ const initialGameState: GameState = {
   players: [],
   currentPlayerIndex: 0,
   selectedCategory: null,
+  selectedCategoryId: null,
   secretWord: '',
   chameleonId: -1,
   gamePhase: GamePhase.SETUP,
-  playerCount: 3
+  playerCount: 3,
+  playerNames: []
 };
 
 export const useGameState = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
 
-  const startGame = useCallback((playerCount: number) => {
-    const chameleonId = getRandomPlayer(playerCount);
-    const players = createPlayers(playerCount, chameleonId);
-    const selectedCategory = getRandomCategory(gameData.categories);
-    const secretWord = getRandomWord(selectedCategory.words);
+  const startGame = useCallback(() => {
+    setGameState(prev => {
+      const chameleonId = getRandomPlayer(prev.playerCount);
+      const players = createPlayers(prev.playerCount, chameleonId, prev.playerNames);
+      
+      // Use selected category or fall back to random
+      const selectedCategory = prev.selectedCategoryId 
+        ? gameData.categories.find(cat => cat.id === prev.selectedCategoryId) || getRandomCategory(gameData.categories)
+        : getRandomCategory(gameData.categories);
+      
+      const secretWord = getRandomWord(selectedCategory.words);
 
-    setGameState({
-      players,
-      currentPlayerIndex: 0,
-      selectedCategory,
-      secretWord,
-      chameleonId,
-      gamePhase: GamePhase.ROLE_REVEAL,
-      playerCount
+      return {
+        ...prev,
+        players,
+        currentPlayerIndex: 0,
+        selectedCategory,
+        secretWord,
+        chameleonId,
+        gamePhase: GamePhase.ROLE_REVEAL
+      };
     });
   }, []);
 
@@ -80,7 +89,22 @@ export const useGameState = () => {
   const setPlayerCount = useCallback((count: number) => {
     setGameState(prev => ({
       ...prev,
-      playerCount: count
+      playerCount: count,
+      playerNames: Array(count).fill('').map((_, i) => prev.playerNames[i] || '')
+    }));
+  }, []);
+
+  const setPlayerNames = useCallback((names: string[]) => {
+    setGameState(prev => ({
+      ...prev,
+      playerNames: [...names]
+    }));
+  }, []);
+
+  const setSelectedCategory = useCallback((categoryId: string | null) => {
+    setGameState(prev => ({
+      ...prev,
+      selectedCategoryId: categoryId
     }));
   }, []);
 
@@ -91,6 +115,8 @@ export const useGameState = () => {
     goToDiscussion,
     goToFinalReveal,
     resetGame,
-    setPlayerCount
+    setPlayerCount,
+    setPlayerNames,
+    setSelectedCategory
   };
 };
