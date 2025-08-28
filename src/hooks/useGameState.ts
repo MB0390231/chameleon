@@ -13,7 +13,8 @@ const initialGameState: GameState = {
   chameleonId: -1,
   gamePhase: GamePhase.SETUP,
   playerCount: 3,
-  playerNames: []
+  playerNames: [],
+  isReplay: false
 };
 
 export const useGameState = () => {
@@ -108,6 +109,23 @@ export const useGameState = () => {
     }));
   }, []);
 
+  const playAgain = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      selectedCategoryId: null,
+      selectedCategory: null,
+      secretWord: '',
+      chameleonId: -1,
+      currentPlayerIndex: 0,
+      gamePhase: GamePhase.CATEGORY_SELECT,
+      isReplay: true,
+      players: prev.players.map(player => ({
+        ...player,
+        hasRevealed: false
+      }))
+    }));
+  }, []);
+
   return {
     gameState,
     startGame,
@@ -117,6 +135,7 @@ export const useGameState = () => {
     resetGame,
     setPlayerCount,
     setPlayerNames,
-    setSelectedCategory
+    setSelectedCategory,
+    playAgain
   };
 };

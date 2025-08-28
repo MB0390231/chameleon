@@ -557,6 +557,80 @@ body {
   background: #45a049;
 }
 
+.play-again-button {
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 15px 24px;
+  margin-right: 15px;
+}
+
+.play-again-button:hover {
+  background: #1976D2;
+}
+
+.game-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* CategorySelection Page Styles */
+.category-selection-page {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.selection-header {
+  margin-bottom: 30px;
+}
+
+.players-summary {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+.players-summary h2 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.player-names {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.player-chip {
+  background: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.selection-content h2 {
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
 /* Mobile Responsive */
 @media (max-width: 480px) {
   .app {
@@ -566,7 +640,8 @@ body {
   .game-setup,
   .role-reveal,
   .discussion,
-  .final-reveal {
+  .final-reveal,
+  .category-selection-page {
     padding: 30px 20px;
     margin: 0 10px;
   }
@@ -629,6 +704,26 @@ body {
   
   .setup-step {
     min-height: 250px;
+  }
+  
+  /* Mobile play again styles */
+  .game-actions {
+    flex-direction: column;
+  }
+  
+  .play-again-button,
+  .new-game-button {
+    margin-right: 0;
+    width: 100%;
+  }
+  
+  .player-names {
+    justify-content: center;
+  }
+  
+  .player-chip {
+    font-size: 0.8rem;
+    padding: 6px 12px;
   }
 }
 

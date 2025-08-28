@@ -7,6 +7,7 @@ interface FinalRevealProps {
   chameleonId: number;
   players: Player[];
   onNewGame: () => void;
+  onPlayAgain: () => void;
 }
 
 const FinalReveal: React.FC<FinalRevealProps> = ({
@@ -14,7 +15,8 @@ const FinalReveal: React.FC<FinalRevealProps> = ({
   category,
   chameleonId,
   players,
-  onNewGame
+  onNewGame,
+  onPlayAgain
 }) => {
   const chameleonPlayer = players.find(player => player.id === chameleonId);
 
@@ -53,6 +55,12 @@ const FinalReveal: React.FC<FinalRevealProps> = ({
         </div>
 
         <div className="game-actions">
+          <button 
+            className="play-again-button"
+            onClick={onPlayAgain}
+          >
+            Play Again (Same Players)
+          </button>
           <button 
             className="new-game-button"
             onClick={onNewGame}

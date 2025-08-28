@@ -1,6 +1,7 @@
 import { useGameState } from './hooks/useGameState';
 import { GamePhase } from './types/game.types';
 import GameSetup from './components/GameSetup';
+import CategorySelection from './components/CategorySelection';
 import RoleReveal from './components/RoleReveal';
 import Discussion from './components/Discussion';
 import FinalReveal from './components/FinalReveal';
@@ -16,7 +17,8 @@ function App() {
     resetGame,
     setPlayerCount,
     setPlayerNames,
-    setSelectedCategory
+    setSelectedCategory,
+    playAgain
   } = useGameState();
 
   const renderCurrentPhase = () => {
@@ -29,6 +31,16 @@ function App() {
             selectedCategoryId={gameState.selectedCategoryId}
             onPlayerCountChange={setPlayerCount}
             onPlayerNamesChange={setPlayerNames}
+            onCategoryChange={setSelectedCategory}
+            onStartGame={startGame}
+          />
+        );
+
+      case GamePhase.CATEGORY_SELECT:
+        return (
+          <CategorySelection
+            selectedCategoryId={gameState.selectedCategoryId}
+            playerNames={gameState.playerNames}
             onCategoryChange={setSelectedCategory}
             onStartGame={startGame}
           />
@@ -63,6 +75,7 @@ function App() {
             chameleonId={gameState.chameleonId}
             players={gameState.players}
             onNewGame={resetGame}
+            onPlayAgain={playAgain}
           />
         );
 

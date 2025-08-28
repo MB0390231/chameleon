@@ -13,6 +13,7 @@ export interface Player {
 
 export const GamePhase = {
   SETUP: 'setup' as const,
+  CATEGORY_SELECT: 'category_select' as const,
   ROLE_REVEAL: 'role_reveal' as const,
   DISCUSSION: 'discussion' as const,
   FINAL_REVEAL: 'final_reveal' as const
@@ -30,6 +31,7 @@ export interface GameState {
   gamePhase: GamePhase;
   playerCount: number;
   playerNames: string[];
+  isReplay: boolean;
 }
 
 export interface GameData {
