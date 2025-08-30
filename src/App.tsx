@@ -19,7 +19,6 @@ function App() {
     setPlayerNames,
     setSelectedCategory,
     playAgain,
-    getAllCategories,
     addCustomCategory,
     updateCustomCategory,
     deleteCustomCategory

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { GameState } from '../types/game.types';
+import type { GameState, Category } from '../types/game.types';
 import { GamePhase } from '../types/game.types';
 import { getRandomPlayer, getRandomCategory, getRandomWord, createPlayers } from '../utils/gameUtils';
 import gameData from '../data/categories.json';
