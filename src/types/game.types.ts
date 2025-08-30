@@ -32,6 +32,7 @@ export interface GameState {
   playerCount: number;
   playerNames: string[];
   isReplay: boolean;
+  customCategories: Category[];
 }
 
 export interface GameData {

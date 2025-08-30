@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import type { Category } from '../types/game.types';
 import gameData from '../data/categories.json';
+import CategoryManagement from './CategoryManagement';
 
 interface GameSetupProps {
   playerCount: number;
   playerNames: string[];
   selectedCategoryId: string | null;
+  customCategories: Category[];
   onPlayerCountChange: (count: number) => void;
   onPlayerNamesChange: (names: string[]) => void;
   onCategoryChange: (categoryId: string | null) => void;
   onStartGame: () => void;
+  onAddCustomCategory: (name: string, words: string[]) => void;
+  onUpdateCustomCategory: (id: string, name: string, words: string[]) => void;
+  onDeleteCustomCategory: (id: string) => void;
 }
 
 type SetupStep = 'players' | 'names' | 'category';
@@ -18,13 +23,19 @@ const GameSetup: React.FC<GameSetupProps> = ({
   playerCount,
   playerNames,
   selectedCategoryId,
+  customCategories,
   onPlayerCountChange,
   onPlayerNamesChange,
   onCategoryChange,
-  onStartGame
+  onStartGame,
+  onAddCustomCategory,
+  onUpdateCustomCategory,
+  onDeleteCustomCategory
 }) => {
   const [currentStep, setCurrentStep] = useState<SetupStep>('players');
+  const [showManagement, setShowManagement] = useState(false);
   const playerOptions = [3, 4, 5, 6, 7, 8];
+  const allCategories = [...gameData.categories, ...customCategories];
 
   const handleNameChange = (index: number, name: string) => {
     const newNames = [...playerNames];
@@ -98,7 +109,15 @@ const GameSetup: React.FC<GameSetupProps> = ({
 
   const renderCategoryStep = () => (
     <div className="setup-step">
-      <h2>Choose Category</h2>
+      <div className="category-header">
+        <h2>Choose Category</h2>
+        <button 
+          className="manage-categories-button"
+          onClick={() => setShowManagement(true)}
+        >
+          ⚙️ Manage Categories
+        </button>
+      </div>
       <div className="category-selection">
         <div 
           className={`category-card ${selectedCategoryId === null ? 'active' : ''}`}
@@ -107,21 +126,27 @@ const GameSetup: React.FC<GameSetupProps> = ({
           <h3>🎲 Random</h3>
           <p>Let the game choose!</p>
         </div>
-        {gameData.categories.map((category: Category) => (
-          <div
-            key={category.id}
-            className={`category-card ${selectedCategoryId === category.id ? 'active' : ''}`}
-            onClick={() => onCategoryChange(category.id)}
-          >
-            <h3>{category.name}</h3>
-            <div className="category-preview">
-              {category.words.slice(0, 4).map((word, index) => (
-                <span key={index} className="preview-word">{word}</span>
-              ))}
-              <span className="more-indicator">+{category.words.length - 4} more</span>
+        {allCategories.map((category: Category) => {
+          const isCustom = customCategories.some(c => c.id === category.id);
+          return (
+            <div
+              key={category.id}
+              className={`category-card ${selectedCategoryId === category.id ? 'active' : ''} ${isCustom ? 'custom-category' : ''}`}
+              onClick={() => onCategoryChange(category.id)}
+            >
+              <div className="category-card-header">
+                <h3>{category.name}</h3>
+                {isCustom && <span className="custom-badge">Custom</span>}
+              </div>
+              <div className="category-preview">
+                {category.words.slice(0, 4).map((word, index) => (
+                  <span key={index} className="preview-word">{word}</span>
+                ))}
+                <span className="more-indicator">+{category.words.length - 4} more</span>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="step-buttons">
         <button 
@@ -165,6 +190,16 @@ const GameSetup: React.FC<GameSetupProps> = ({
         {currentStep === 'names' && renderNamesStep()}
         {currentStep === 'category' && renderCategoryStep()}
       </div>
+
+      {showManagement && (
+        <CategoryManagement
+          customCategories={customCategories}
+          onAddCategory={onAddCustomCategory}
+          onUpdateCategory={onUpdateCustomCategory}
+          onDeleteCategory={onDeleteCustomCategory}
+          onClose={() => setShowManagement(false)}
+        />
+      )}
     </div>
   );
 };

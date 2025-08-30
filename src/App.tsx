@@ -18,7 +18,11 @@ function App() {
     setPlayerCount,
     setPlayerNames,
     setSelectedCategory,
-    playAgain
+    playAgain,
+    getAllCategories,
+    addCustomCategory,
+    updateCustomCategory,
+    deleteCustomCategory
   } = useGameState();
 
   const renderCurrentPhase = () => {
@@ -29,10 +33,14 @@ function App() {
             playerCount={gameState.playerCount}
             playerNames={gameState.playerNames}
             selectedCategoryId={gameState.selectedCategoryId}
+            customCategories={gameState.customCategories}
             onPlayerCountChange={setPlayerCount}
             onPlayerNamesChange={setPlayerNames}
             onCategoryChange={setSelectedCategory}
             onStartGame={startGame}
+            onAddCustomCategory={addCustomCategory}
+            onUpdateCustomCategory={updateCustomCategory}
+            onDeleteCustomCategory={deleteCustomCategory}
           />
         );
 
@@ -41,8 +49,12 @@ function App() {
           <CategorySelection
             selectedCategoryId={gameState.selectedCategoryId}
             playerNames={gameState.playerNames}
+            customCategories={gameState.customCategories}
             onCategoryChange={setSelectedCategory}
             onStartGame={startGame}
+            onAddCustomCategory={addCustomCategory}
+            onUpdateCustomCategory={updateCustomCategory}
+            onDeleteCustomCategory={deleteCustomCategory}
           />
         );
 

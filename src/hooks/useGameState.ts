@@ -4,6 +4,23 @@ import { GamePhase } from '../types/game.types';
 import { getRandomPlayer, getRandomCategory, getRandomWord, createPlayers } from '../utils/gameUtils';
 import gameData from '../data/categories.json';
 
+const loadCustomCategories = (): Category[] => {
+  try {
+    const stored = localStorage.getItem('chameleon-custom-categories');
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveCustomCategories = (categories: Category[]): void => {
+  try {
+    localStorage.setItem('chameleon-custom-categories', JSON.stringify(categories));
+  } catch {
+    // localStorage not available or full
+  }
+};
+
 const initialGameState: GameState = {
   players: [],
   currentPlayerIndex: 0,
@@ -14,21 +31,27 @@ const initialGameState: GameState = {
   gamePhase: GamePhase.SETUP,
   playerCount: 3,
   playerNames: [],
-  isReplay: false
+  isReplay: false,
+  customCategories: loadCustomCategories()
 };
 
 export const useGameState = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
+
+  const getAllCategories = useCallback(() => {
+    return [...gameData.categories, ...gameState.customCategories];
+  }, [gameState.customCategories]);
 
   const startGame = useCallback(() => {
     setGameState(prev => {
       const chameleonId = getRandomPlayer(prev.playerCount);
       const players = createPlayers(prev.playerCount, chameleonId, prev.playerNames);
       
-      // Use selected category or fall back to random
+      // Use selected category or fall back to random from all categories
+      const allCategories = [...gameData.categories, ...prev.customCategories];
       const selectedCategory = prev.selectedCategoryId 
-        ? gameData.categories.find(cat => cat.id === prev.selectedCategoryId) || getRandomCategory(gameData.categories)
-        : getRandomCategory(gameData.categories);
+        ? allCategories.find(cat => cat.id === prev.selectedCategoryId) || getRandomCategory(allCategories)
+        : getRandomCategory(allCategories);
       
       const secretWord = getRandomWord(selectedCategory.words);
 
@@ -84,8 +107,11 @@ export const useGameState = () => {
   }, []);
 
   const resetGame = useCallback(() => {
-    setGameState(initialGameState);
-  }, []);
+    setGameState({
+      ...initialGameState,
+      customCategories: gameState.customCategories
+    });
+  }, [gameState.customCategories]);
 
   const setPlayerCount = useCallback((count: number) => {
     setGameState(prev => ({
@@ -126,6 +152,49 @@ export const useGameState = () => {
     }));
   }, []);
 
+  const addCustomCategory = useCallback((name: string, words: string[]) => {
+    const newCategory: Category = {
+      id: `custom-${Date.now()}`,
+      name: name.trim(),
+      words: words.map(w => w.trim()).filter(w => w.length > 0)
+    };
+    
+    setGameState(prev => {
+      const updatedCustomCategories = [...prev.customCategories, newCategory];
+      saveCustomCategories(updatedCustomCategories);
+      return {
+        ...prev,
+        customCategories: updatedCustomCategories
+      };
+    });
+  }, []);
+
+  const updateCustomCategory = useCallback((id: string, name: string, words: string[]) => {
+    setGameState(prev => {
+      const updatedCustomCategories = prev.customCategories.map(cat => 
+        cat.id === id 
+          ? { ...cat, name: name.trim(), words: words.map(w => w.trim()).filter(w => w.length > 0) }
+          : cat
+      );
+      saveCustomCategories(updatedCustomCategories);
+      return {
+        ...prev,
+        customCategories: updatedCustomCategories
+      };
+    });
+  }, []);
+
+  const deleteCustomCategory = useCallback((id: string) => {
+    setGameState(prev => {
+      const updatedCustomCategories = prev.customCategories.filter(cat => cat.id !== id);
+      saveCustomCategories(updatedCustomCategories);
+      return {
+        ...prev,
+        customCategories: updatedCustomCategories
+      };
+    });
+  }, []);
+
   return {
     gameState,
     startGame,
@@ -136,6 +205,10 @@ export const useGameState = () => {
     setPlayerCount,
     setPlayerNames,
     setSelectedCategory,
-    playAgain
+    playAgain,
+    getAllCategories,
+    addCustomCategory,
+    updateCustomCategory,
+    deleteCustomCategory
   };
 };
