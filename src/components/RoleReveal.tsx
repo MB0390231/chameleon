@@ -5,7 +5,6 @@ interface RoleRevealProps {
   players: Player[];
   currentPlayerIndex: number;
   secretWord: string;
-  categoryName: string;
   onNextPlayer: () => void;
   onFinishReveals: () => void;
 }
@@ -14,7 +13,6 @@ const RoleReveal: React.FC<RoleRevealProps> = ({
   players,
   currentPlayerIndex,
   secretWord,
-  categoryName,
   onNextPlayer,
   onFinishReveals
 }) => {
@@ -67,9 +65,6 @@ const RoleReveal: React.FC<RoleRevealProps> = ({
             <div className="chameleon-reveal">
               <div className="chameleon-icon">🦎</div>
               <h1 className="role-title">You are the CHAMELEON</h1>
-              <p className="role-instruction">
-                The category is: <strong>{categoryName}</strong>
-              </p>
               <p className="role-instruction">
                 Try to blend in without knowing the secret word!
               </p>

@@ -63,7 +63,6 @@ function App() {
             players={gameState.players}
             currentPlayerIndex={gameState.currentPlayerIndex}
             secretWord={gameState.secretWord}
-            categoryName={gameState.selectedCategory?.name || ''}
             onNextPlayer={nextPlayer}
             onFinishReveals={goToDiscussion}
           />
