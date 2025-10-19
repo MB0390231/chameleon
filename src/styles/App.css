@@ -83,6 +83,44 @@ body {
   border-color: #4CAF50;
 }
 
+/* Player Count Dropdown */
+.player-count-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.player-count-label {
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.player-count-select {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  min-width: 200px;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+
+.player-count-select:hover {
+  border-color: #4CAF50;
+}
+
+.player-count-select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
 .game-rules {
   text-align: left;
   margin-bottom: 30px;

@@ -34,7 +34,7 @@ const GameSetup: React.FC<GameSetupProps> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState<SetupStep>('players');
   const [showManagement, setShowManagement] = useState(false);
-  const playerOptions = [3, 4, 5, 6, 7, 8];
+  const playerOptions = Array.from({ length: 13 }, (_, i) => i + 3); // Generate [3, 4, 5, ..., 15]
   const allCategories = [...gameData.categories, ...customCategories];
 
   const handleNameChange = (index: number, name: string) => {
@@ -49,18 +49,24 @@ const GameSetup: React.FC<GameSetupProps> = ({
   const renderPlayerCountStep = () => (
     <div className="setup-step">
       <h2>Number of Players</h2>
-      <div className="player-buttons">
-        {playerOptions.map((count) => (
-          <button
-            key={count}
-            className={`player-button ${playerCount === count ? 'active' : ''}`}
-            onClick={() => onPlayerCountChange(count)}
-          >
-            {count}
-          </button>
-        ))}
+      <div className="player-count-group">
+        <label htmlFor="player-count-select" className="player-count-label">
+          Select number of players:
+        </label>
+        <select
+          id="player-count-select"
+          className="player-count-select"
+          value={playerCount}
+          onChange={(e) => onPlayerCountChange(Number(e.target.value))}
+        >
+          {playerOptions.map((count) => (
+            <option key={count} value={count}>
+              {count} Players
+            </option>
+          ))}
+        </select>
       </div>
-      <button 
+      <button
         className="next-button"
         onClick={() => setCurrentStep('names')}
       >
